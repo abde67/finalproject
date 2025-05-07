@@ -1,56 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-    
-
-        <div id="container"><button id="one"></button>
-            <button id="two"></button>
-            <button id="three"></button></div>
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Simple DOM example</title>
+    <style>
+      .highlight{
+        color: brown;
+        background-color: aquamarine;
+        padding: 10px;
+        width: 250px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <img
+        src="dinosaur.png"
+        alt="A red Tyrannosaurus Rex: A two legged dinosaur standing upright like a human, with small arms, and a large head with lots of sharp teeth." />
+      <p>
+        Here we will add a link to the
+        <a href="https://www.mozilla.org/">Mozilla homepage</a>
+      </p>
+    </section>
     <script>
+      const link=document.querySelector("a");
+      link.textContent="mozilla developer network";
+      link.href="https://developer.mozilla.org";
+      const sect=document.querySelector("section");
+      const para=document.createElement("p");
+      para.textContent="we hope you enjoy the trip.";
+      sect.appendChild(para);
+      const text=document.createTextNode("- the premier source for web development knoeledg.",);
+      const linkpara=document.querySelector("p");
+      linkpara.appendChild(text);
+      sect.appendChild(linkpara);
 
-   const button=document.querySelectorAll("button");
-   button.forEach ((button)=>{
-    button.addEventListener("click",()=>
-    {alert(button.id);})
-   })
-
-
-        btn.addEventListener("click", function (e) {
-  e.target.style.background = "blue";
-});
-       
-     function alertFunction(){
-        alert("you did it!");
-     }
-     
-     btn.addEventListener("click", function (e) {
-  console.log(e.target);
-});
-        const body=document.querySelector("body");
-        const p=document.createElements("p");
-       p.textcontent="ths is red text";
-      p.style.color="red";
-      const h3 =document.createElement("h3");
-      h3.textContent="i am blue text";
-      h3.style.color="blue";
-      const div=document.createElement("div");
-      div.style.cssText="border:black; backround:pink;"
-     const h1=document.createelement("h1");
-     h1.textContent="i am  in a div";
-     div.appendChild(h1);
-     const papa=document. createElement("p");
-     papa.classList.add("papa");
-     papa.textContent="me too";
-     div.appendChild(papa);
-     
-
-
+      para.setAttribute("class","highlight");
+      
     </script>
-</body>
+  </body>
 </html>
