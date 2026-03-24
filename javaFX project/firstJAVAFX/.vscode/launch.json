@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "TestDB",
+      "request": "launch",
+      "mainClass": "TestDB",
+      "projectName": "firstJAVAFX_532c2766"
+    },
+    {
+      "type": "java",
+      "name": "Launch TestDB",
+      "request": "launch",
+      "mainClass": "TestDB",
+      "projectName": "firstJAVAFX",
+      "classpath": [
+        "${workspaceFolder}/lib/mysql-connector-j-9.5.0.jar",
+        "${workspaceFolder}"
+      ]
+    }
+  ]
+}
