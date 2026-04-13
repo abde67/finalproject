@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EDUCARE Login Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background: #0651ed;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0541c7;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .accounts {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .accounts h3 {
+            margin-top: 0;
+        }
+        .account-btn {
+            background: #28a745;
+            margin: 5px;
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎓 EDUCARE Login Test</h1>
+    
+    <div class="accounts">
+        <h3>Quick Login (Click to auto-fill)</h3>
+        <button class="account-btn" onclick="fillLogin('alex.martinez@educare.com', 'password123')">
+            Student: Alex Martinez
+        </button>
+        <button class="account-btn" onclick="fillLogin('teacher@educare.com', 'password123')">
+            Teacher: Mrs. Thompson
+        </button>
+        <button class="account-btn" onclick="fillLogin('parent@educare.com', 'password123')">
+            Parent: Jonathan Martinez
+        </button>
+    </div>
+
+    <form id="loginForm">
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="email" id="email" value="alex.martinez@educare.com" required>
+        </div>
+        <div class="form-group">
+            <label>Password:</label>
+            <input type="password" id="password" value="password123" required>
+        </div>
+        <button type="submit">Login</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        function fillLogin(email, password) {
+            document.getElementById('email').value = email;
+            document.getElementById('password').value = password;
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.innerHTML = '<p>Logging in...</p>';
+            
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        <h3>✅ Login Successful!</h3>
+                        <p><strong>Name:</strong> ${data.user.full_name}</p>
+                        <p><strong>Email:</strong> ${data.user.email}</p>
+                        <p><strong>Role:</strong> ${data.user.role}</p>
+                        <p><strong>Token:</strong> ${data.token.substring(0, 50)}...</p>
+                        <p><a href="http://localhost:5173" target="_blank">Open EDUCARE App →</a></p>
+                    `;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `
+                        <h3>❌ Login Failed</h3>
+                        <p>${data.error || 'Unknown error'}</p>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Connection Error</h3>
+                    <p>${error.message}</p>
+                    <p>Make sure the backend is running on http://127.0.0.1:5000</p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
